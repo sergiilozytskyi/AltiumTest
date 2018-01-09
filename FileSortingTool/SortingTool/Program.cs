@@ -160,6 +160,9 @@ namespace SortingTool
 		{
 			// TODO: Write help text for tool.
 			Console.WriteLine("Heare should be tool help text :)!");
+
+			Console.WriteLine("Usage example:");
+			Console.WriteLine("SortingTool.exe -FileName c:\temp\test.txt");
 		}
 
 		static int Main(string[] args)

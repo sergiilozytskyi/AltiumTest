@@ -25,6 +25,8 @@ namespace FileValidator
 		protected override void PrintHelpText()
 		{
 			Console.WriteLine("-LinesOnly true: Validate only lines format and does not validate sort order.");
+			Console.WriteLine("Usage example:");
+			Console.WriteLine("FileValidator.exe -LinesOnly false -FileName c:\temp\test_sorted(1).txt");
 		}
 
 		protected override bool ParsePrameters(string[] args)

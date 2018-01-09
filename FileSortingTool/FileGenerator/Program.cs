@@ -213,6 +213,8 @@ namespace FileGenerator
 		{
 			// TODO: Write help text for tool.
 			Console.WriteLine("Heare should be tool help text :)!");
+			Console.WriteLine("Usage example:");
+			Console.WriteLine("FileGenerator.exe -FileSize 10000000000 -DuplicatesProbabilityPercents 10 -FileName c:\temp\test.txt");
 		}
 		static int Main(string[] args)
 		{
