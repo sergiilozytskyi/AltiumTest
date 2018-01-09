@@ -133,15 +133,15 @@ namespace SortingTool
 				Console.WriteLine(@"Release notes:
 1. Tool use Radix, Quick and Merge sort algorithms in conjunction with parallelization.
 2. Tool works only with ASCII encoded human readable symbols (32-127 ASCII codes).
-3. Numbers must have positive values of 4 bytes integer
+3. Numbers must have positive values of 4-bytes integer.
 4. Each line must have correct format according to task description.
-5. Add progress like it is done in FileGenerator.
 ");
 
 				Console.WriteLine(@"Can be improved in following places:
 1. Introducing parallelizm in part where merge sort algoritnm is used.
 2. Introducing more smarter logic for duplicate strings processing.
-3. Add error processing for inccorect files/lines.");
+3. Add error processing for inccorect files/lines.
+4. Add progress like it is done in FileGenerator.");
 			}
 
 		protected override void OnExecute()

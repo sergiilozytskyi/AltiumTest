@@ -1,5 +1,7 @@
 ﻿using Common;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace SortingTool
 {
@@ -18,50 +20,50 @@ namespace SortingTool
 		{
 			_isCancelled = true;
 		}
+
+		private static IEnumerable<T> Merge<T>(IEnumerable<T> firstEnumerable, IEnumerable<T> secondEnumerable, IComparer<T> comparer)
+		{
+			using (var firstEnumerator = firstEnumerable.GetEnumerator())
+			using (var secondEnumerator = secondEnumerable.GetEnumerator())
+			{
+				bool first = firstEnumerator.MoveNext();
+				bool second = secondEnumerator.MoveNext();
+
+				while (first && second)
+				{
+					if (comparer.Compare(firstEnumerator.Current, secondEnumerator.Current) < 0)
+					{
+						yield return firstEnumerator.Current;
+						first = firstEnumerator.MoveNext();
+					}
+					else
+					{
+						yield return secondEnumerator.Current;
+						second = secondEnumerator.MoveNext();
+					}
+				}
+
+				while (first)
+				{
+					yield return firstEnumerator.Current;
+					first = firstEnumerator.MoveNext();
+				}
+
+				while (second)
+				{
+					yield return secondEnumerator.Current;
+					second = secondEnumerator.MoveNext();
+				}
+			}
+		}
+
 		public void Sort(byte[][] source)
 		{
-			using (var src = File.OpenText(_sourceFile))
 			using (var target = new StreamWriter(File.OpenWrite(_targetFile)))
 			{
-				int i = 0;
-				Line first = null, second = null;
-				while (!src.EndOfStream || i < source.Length)
+				foreach(var line in Merge(source.Select(b => new Line(b)), File.ReadLines(_sourceFile).Select(l => new Line(l)), new LineComparer()))
 				{
-					if (!src.EndOfStream && i < source.Length)
-					{
-						first = first ?? new Line(src.ReadLine());
-						second = second ?? new Line(source[i]);
-
-						if (first.CompareTo(second) >= 0)
-						{
-							target.WriteLine(second.ToString());
-							source[i++] = null;
-							second = null;
-						}
-						else
-						{
-							target.WriteLine(first.ToString());
-							first = null;
-						}
-					}
-					else if (!src.EndOfStream)
-					{
-						target.WriteLine(first.ToString());
-						while (!src.EndOfStream && !_isCancelled)
-						{
-							first = new Line(src.ReadLine());
-							target.WriteLine(first.ToString());
-						};
-					}
-					else if (i < source.Length)
-					{
-						target.WriteLine(second.ToString());
-						for (i = i + 1; i < source.Length && !_isCancelled; ++i)
-						{
-							second = new Line(source[i++]);
-							target.WriteLine(second.ToString());
-						}
-					}
+					target.WriteLine(line.ToString());
 				}
 			}
 		}

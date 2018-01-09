@@ -126,7 +126,7 @@ namespace SortingTool
 						{
 							if (job.right - job.left <= QuickSortJobTrashold)
 							{
-								Array.Sort(lines, job.left, job.right - job.left, new LineComparer());
+								Array.Sort(lines, job.left, job.right - job.left, new BytesComparer());
 							}
 							else
 							{

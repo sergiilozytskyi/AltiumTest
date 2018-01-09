@@ -6,13 +6,19 @@ using System.Text;
 
 namespace Common
 {
-	public class LineComparer : IComparer
+	public class BytesComparer : IComparer<byte[]>
 	{
-		int IComparer.Compare(object x, object y)
+		int IComparer<byte[]>.Compare(byte[] x, byte[] y)
 		{
-			var lineX = new Line(x as byte[]);
-			var lineY = new Line(y as byte[]);
-			return lineX.CompareTo(lineY);
+			return new Line(x).CompareTo(new Line(y));
+		}
+	}
+
+	public class LineComparer : IComparer<Line>
+	{
+		int IComparer<Line>.Compare(Line x, Line y)
+		{
+			return x.CompareTo(y);
 		}
 	}
 	public class Line : IComparable<Line>
